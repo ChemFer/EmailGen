@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 public class Email {
     private String firstName;
     private String surname;
-    private String password;
     private String department;
     private String email;
     private int mailboxCapacity = 1000;
@@ -19,14 +18,17 @@ public class Email {
     private int passwordLength = 10;
     private String companyEmailSuffix = "company.com";
 
+    Password password = new Password();
     public Email(String firstName, String surname) {
         this.firstName = firstName;
         this.surname = surname;
 
         this.department = setDepartment();
-        this.password = passwordGenerator(passwordLength);
         email = this.firstName.toLowerCase() + "." + this.surname.toLowerCase() + "@" + this.department + "." + companyEmailSuffix;
     }
+
+
+
 
     private String setDepartment(){
         System.out.println("Enter department: \n1: HelpDesk \n2: Development \n3: Accounting \n4: Sales \n5: Marketing");
@@ -49,33 +51,6 @@ public class Email {
         }
     }
 
-    private static String passwordGenerator(int length){
-        String password = "";
-        for (int i = 0; i < length; i++){
-            password += randomCharacter();
-        }
-        return password;
-    }
-
-    private static char randomCharacter(){
-        int ascii = 0;
-        int rand = (int) (Math.random() * 62); //10 digits, 26 uppercase letters, 26 lowercase letters
-        if (rand <= 9){
-            ascii = rand + 48; //number between 0-9, ASCII: 48-57
-            return (char) ascii;
-        }
-        else if (rand > 9 && rand <= 35){
-            //uppercase letters: 10-35, ASCII: 65-90, 65-10=55
-            ascii = rand + 55;
-            return (char) ascii;
-        }
-        else {
-            //lowercase letters 36-61, ASCII: 97-122, 97-36=61
-            ascii = rand + 61;
-            return (char) ascii;
-        }
-
-    }
 
     public void setMailboxCapacity(int mailboxCapacity) {
         this.mailboxCapacity = mailboxCapacity;
@@ -83,10 +58,6 @@ public class Email {
 
     public void setAlternativeEmail(String alternativeEmail) {
         this.alternativeEmail = alternativeEmail;
-    }
-
-    public void changePassword(String password){
-        this.password = password;
     }
 
     public int getMailboxCapacity() {
@@ -97,13 +68,10 @@ public class Email {
         return alternativeEmail;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public String showInfo(){
         String info = "NAME: " + firstName + " " + surname
-                + "\nCREATED EMAIL: " + email + "\nPASSWORD: " + password + "\nMAILBOX CAPACITY: " + mailboxCapacity + "mb";
+                + "\nCREATED EMAIL: " + email  + "\nPASSWORD: " + password.getPassword() + "\nMAILBOX CAPACITY: " + mailboxCapacity + "mb";
         return info;
     }
 }
